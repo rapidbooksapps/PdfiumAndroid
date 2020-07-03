@@ -102,6 +102,8 @@ public class PdfDocument {
 
     /*package*/ PdfDocument() {
     }
+    /*package*/  final Map<Integer, Long> mNativeTextPagesPtr = new ArrayMap<>();
+    /*package*/  final Map<Integer, Long> mNativeSearchHandlePtr = new ArrayMap<>();
 
     /*package*/ long mNativeDocPtr;
     /*package*/ ParcelFileDescriptor parcelFileDescriptor;
