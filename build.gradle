@@ -59,6 +59,17 @@ android {
             jniLibs.srcDir 'src/main/libs'
         }
     }
+    externalNativeBuild {
+        ndkBuild {
+            path file('src/main/jni/Android.mk')
+        }
+    }
+    packagingOptions {
+//        pickFirst 'lib/x86/libc++_shared.so'
+//        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/*'
+        pickFirst 'lib/armeabi-v7a/*'
+    }
 }
 
 repositories {
@@ -71,5 +82,7 @@ dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: 'gradle/JCenter/installv1.gradle'
+apply from: 'gradle/JCenter/bintrayv1.gradle'
