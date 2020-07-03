@@ -20,6 +20,8 @@ public interface TextSearchContext {
 
     boolean hasPrev();
 
+    int getCurrentPos();
+
     RectF searchNext();
 
     RectF searchPrev();

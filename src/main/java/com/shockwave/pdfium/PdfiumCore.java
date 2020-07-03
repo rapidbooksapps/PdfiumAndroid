@@ -787,6 +787,8 @@ public class PdfiumCore {
 
             private Long mSearchHandlePtr;
 
+            private int currentPos = -1;
+
             @Override
             public void prepareSearch() {
 
@@ -809,17 +811,26 @@ public class PdfiumCore {
             }
 
             @Override
+            public int getCurrentPos() {
+                return currentPos;
+            }
+
+            @Override
             public RectF searchNext() {
                 if (validPtr(mSearchHandlePtr)) {
                     mHasNext = nativeSearchNext(mSearchHandlePtr);
                     if (mHasNext) {
                         int index = nativeGetCharIndexOfSearchResult(mSearchHandlePtr);
                         if (index > -1) {
+                            currentPos = index;
                             return measureCharacterBox(document, this.getPageIndex(), index);
+                        }else {
+                            currentPos = -1;
                         }
                     }
                 }
 
+                currentPos = -1;
                 mHasNext = false;
                 return null;
             }
@@ -832,11 +843,15 @@ public class PdfiumCore {
                     if (mHasPrev) {
                         int index = nativeGetCharIndexOfSearchResult(mSearchHandlePtr);
                         if (index > -1) {
+                            currentPos = index;
                             return measureCharacterBox(document, this.getPageIndex(), index);
+                        } else {
+                            currentPos = -1;
                         }
                     }
                 }
 
+                currentPos = -1;
                 mHasPrev = false;
                 return null;
             }
@@ -844,6 +859,7 @@ public class PdfiumCore {
             @Override
             public void stopSearch() {
                 super.stopSearch();
+                currentPos = -1;
                 if (validPtr(mSearchHandlePtr)) {
                     nativeSearchStop(mSearchHandlePtr);
                     document.mNativeSearchHandlePtr.remove(getPageIndex());
